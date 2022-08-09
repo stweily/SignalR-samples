@@ -41,18 +41,19 @@
             // 
             this.addressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.addressTextBox.Location = new System.Drawing.Point(66, 10);
+            this.addressTextBox.Location = new System.Drawing.Point(66, 9);
             this.addressTextBox.Name = "addressTextBox";
-            this.addressTextBox.Size = new System.Drawing.Size(521, 20);
+            this.addressTextBox.Size = new System.Drawing.Size(521, 21);
             this.addressTextBox.TabIndex = 0;
+            this.addressTextBox.Text = "http://127.0.0.1:8080/hubs/synergy";
             this.addressTextBox.Enter += new System.EventHandler(this.addressTextBox_Enter);
             // 
             // connectButton
             // 
             this.connectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectButton.Location = new System.Drawing.Point(593, 8);
+            this.connectButton.Location = new System.Drawing.Point(593, 7);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(75, 23);
+            this.connectButton.Size = new System.Drawing.Size(75, 21);
             this.connectButton.TabIndex = 1;
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
@@ -61,9 +62,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 13);
+            this.label1.Location = new System.Drawing.Point(12, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
+            this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 2;
             this.label1.Text = "Address:";
             // 
@@ -74,10 +75,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messagesList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.messagesList.FormattingEnabled = true;
-            this.messagesList.Location = new System.Drawing.Point(15, 36);
+            this.messagesList.Location = new System.Drawing.Point(15, 33);
             this.messagesList.Name = "messagesList";
             this.messagesList.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.messagesList.Size = new System.Drawing.Size(734, 485);
+            this.messagesList.Size = new System.Drawing.Size(734, 446);
             this.messagesList.TabIndex = 3;
             this.messagesList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.messagesList_DrawItem);
             // 
@@ -85,9 +86,9 @@
             // 
             this.sendButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.sendButton.Enabled = false;
-            this.sendButton.Location = new System.Drawing.Point(674, 532);
+            this.sendButton.Location = new System.Drawing.Point(674, 491);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(75, 23);
+            this.sendButton.Size = new System.Drawing.Size(75, 21);
             this.sendButton.TabIndex = 5;
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -98,9 +99,9 @@
             this.messageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messageTextBox.Enabled = false;
-            this.messageTextBox.Location = new System.Drawing.Point(15, 534);
+            this.messageTextBox.Location = new System.Drawing.Point(15, 493);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(653, 20);
+            this.messageTextBox.Size = new System.Drawing.Size(653, 21);
             this.messageTextBox.TabIndex = 4;
             this.messageTextBox.Enter += new System.EventHandler(this.messageTextBox_Enter);
             // 
@@ -108,9 +109,9 @@
             // 
             this.disconnectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.disconnectButton.Enabled = false;
-            this.disconnectButton.Location = new System.Drawing.Point(674, 8);
+            this.disconnectButton.Location = new System.Drawing.Point(674, 7);
             this.disconnectButton.Name = "disconnectButton";
-            this.disconnectButton.Size = new System.Drawing.Size(75, 23);
+            this.disconnectButton.Size = new System.Drawing.Size(75, 21);
             this.disconnectButton.TabIndex = 6;
             this.disconnectButton.Text = "Disconnect";
             this.disconnectButton.UseVisualStyleBackColor = true;
@@ -118,9 +119,9 @@
             // 
             // ChatForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 566);
+            this.ClientSize = new System.Drawing.Size(761, 522);
             this.Controls.Add(this.disconnectButton);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.messageTextBox);
