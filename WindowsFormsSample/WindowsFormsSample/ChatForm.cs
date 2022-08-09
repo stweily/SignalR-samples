@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
+using System.Net;
+using System.Web.Security;
 
 namespace WindowsFormsSample
 {
@@ -18,6 +20,7 @@ namespace WindowsFormsSample
         private void ChatForm_Load(object sender, EventArgs e)
         {
             addressTextBox.Focus();
+            Cookie ck = new Cookie();
         }
 
         private void addressTextBox_Enter(object sender, EventArgs e)
@@ -34,17 +37,25 @@ namespace WindowsFormsSample
             //    .Build();
 
             _connection = new HubConnectionBuilder()
-                    .WithUrl( addressTextBox.Text,
-                              options=> {
+                    .WithUrl(addressTextBox.Text,
+                              options =>
+                              {
                                   options.AccessTokenProvider = getAccessToken;
                               })
                     .WithAutomaticReconnect()
                     .Build();
 
+            //方式2
+            // 方式二、直接追加查询参数
+            //_connection = new HubConnectionBuilder()
+            //  .WithUrl(addressTextBox.Text + $"?access-token={token}")
+            //  .WithAutomaticReconnect()
+            //  .Build();
+
             //_connection.On<string, string>("broadcastMessage", (s1, s2) => OnSend(s1, s2));
 
-            _connection.On<string,string>("SetWork", (type,work) => CurrentWork(work));
-            _connection.On<string,string>("Recive", (type, data) => Recive(data));
+            _connection.On<string, string>("SetWork", (type, work) => CurrentWork(work));
+            _connection.On<string, string>("Receive", (type, data) => Recive(data));
             _connection.On("StopWork", () => StopWork());
 
             Log(Color.Gray, "Starting connection...");
@@ -64,12 +75,14 @@ namespace WindowsFormsSample
 
             messageTextBox.Focus();
         }
-        async Task<string> getAccessToken() 
+        string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIyNTI4ODUyNjMwMDM3MjEiLCJBY2NvdW50IjoiYWRtaW4iLCJOYW1lIjoi566h55CG5ZGYIiwiU3VwZXJBZG1pbiI6MSwiVGVuYW50SWQiOiIxNDIzMDcwNzA5MTg3ODAiLCJUb2tlbklEIjozMTg5MDk3MzY3NTkzMDIsImlhdCI6MTY2MDAyNDAyNCwibmJmIjoxNjYwMDI0MDI0LCJleHAiOjE2NjA2Mjg4MjQsImlzcyI6IklUQyIsImF1ZCI6IklUQyJ9.D3TEM0tAHpLhkMy1BgJ0kuk9nZn1daGeZvssiUjUixw";
+        async Task<string> getAccessToken()
         {
             await Task.Yield();
-            return "Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIyNTI4ODUyNjMwMDM3MjEiLCJBY2NvdW50IjoiYWRtaW4iLCJOYW1lIjoi566h55CG5ZGYIiwiU3VwZXJBZG1pbiI6MSwiVGVuYW50SWQiOiIxNDIzMDcwNzA5MTg3ODAiLCJUb2tlbklEIjozMTg4MzgyNjg3NTU5NzQsImlhdCI6MTY2MDAwNjU3NiwibmJmIjoxNjYwMDA2NTc2LCJleHAiOjE2NjA2MTEzNzYsImlzcyI6IklUQyIsImF1ZCI6IklUQyJ9.WCDsVMLLNolNUXdd7-oYAPX18iY3ADKUAFZg9PVossg ";  
+            //return "Authorization:Bearer "+token;
+            return AuthenticateUser();
+            //return token;
         }
-
     private async void disconnectButton_Click(object sender, EventArgs e)
         {
             Log(Color.Gray, "Stopping connection...");
@@ -168,31 +181,33 @@ namespace WindowsFormsSample
                 new SolidBrush(message.MessageColor),
                 e.Bounds);
         }
+
+        private static string AuthenticateUser(string user= "13316145903", string password="123456789")
+        {
+             
+            var request = WebRequest.Create("http://127.0.0.1:8080/auth/loginpwd") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.CookieContainer = new CookieContainer();
+
+            var authCredentials = $"{{\"account\":\"{ user}\",\"password\":\"{password}\"}}";
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(authCredentials);
+            request.ContentLength = bytes.Length;
+            using (var requestStream = request.GetRequestStream())
+            {
+                requestStream.Write(bytes, 0, bytes.Length);
+            }
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                var authCookie = response.Cookies[FormsAuthentication.FormsCookieName];
+                System.IO.StreamReader stream = new System.IO.StreamReader(response.GetResponseStream());
+                var buff = stream.ReadToEnd();
+                buff = response.Headers.GetValues("access-token")[0];
+                return buff;
+            }
+            return null;
+             
+        }
     }
-
-
-    public  class SynergyData
-    {
-        public string Id { get; set; }
-        public  string Type { get; set; }
-    }
-    public abstract class SynergyWork
-    {
-        public string Id { get; set; }
-
-        /// <summary>
-        /// 工作所属的会议
-        /// </summary>
-        public string MeetingId { get; set; }
-
-        /// <summary>
-        /// 工作类型
-        /// 1全屏批注 2文档批注 3白板 4分屏白板
-        /// </summary>
-        public int WorkType { get; set; }
-        /// <summary>
-        /// 工作参数（）
-        /// </summary>
-        public string WorkParameter { get; set; }
-    }
+    
 }

@@ -45,7 +45,7 @@
             this.addressTextBox.Name = "addressTextBox";
             this.addressTextBox.Size = new System.Drawing.Size(521, 21);
             this.addressTextBox.TabIndex = 0;
-            this.addressTextBox.Text = "http://127.0.0.1:8080/hubs/synergy";
+            this.addressTextBox.Text = "http://127.0.0.1:8080/hubs/messagehub";
             this.addressTextBox.Enter += new System.EventHandler(this.addressTextBox_Enter);
             // 
             // connectButton
